@@ -52,8 +52,27 @@ public class Jugador
 		{
 			this.id = id;
 		}
+		public boolean isNumeric(String cadena)
+		{
+			try
+			{
+				Integer.parseInt(cadena);
+				return true;
+			}
+			catch (NumberFormatException nfe)
+			{
+				return false;
+			}
+		}
+		public boolean espacios(String cad)
+		{
+			for(int i=0; i<cad.length(); i++)
+				if(cad.charAt(i) !=' ')
+				return false;
+				return true;
+		}
 		public String toString()
 		{
-		return "Se ha registrado el jugador: " +this.nombre+" "+this.apellidos+" que tiene "+this.edad+" anos.";  
+		return "Se ha registrado el jugador: " +this.nombre+" "+this.apellidos+" que tiene "+this.edad+" años.";  
 		}
 }

@@ -9,6 +9,12 @@ import Juego.Jugador;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.JLabel;
+import java.awt.Font;
+import javax.swing.JButton;
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.DropMode;
 
 public class Principal extends JFrame {
 
@@ -16,19 +22,16 @@ public class Principal extends JFrame {
 	private JTextField jnombre;
 	private JTextField japellidos;
 	private JTextField jedad;
-	private JTextField jid;
-
+	Jugador player1=new Jugador();
+	private JTextField mensaje;
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		
-		Jugador player1=new Jugador(); //aqui el player1 es como una variable que va a coger todos los datos a la clase jugador.
-		player1.setNombre("Constantin");
-		player1.setApellidos("Bejenaru");
-		player1.setEdad(36);
-		player1.setId(0025);
-		System.out.println(player1.toString());
+		 //aqui el player1 es como una variable que va a coger todos los datos a la clase jugador.
+		
+	//	System.out.println(player1.toString());
 		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -46,6 +49,12 @@ public class Principal extends JFrame {
 	 * Create the frame.
 	 */
 	public Principal() {
+		
+		player1.setNombre("");
+		player1.setApellidos("");
+		player1.setEdad(666);
+		player1.setId(25);
+				
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -54,45 +63,109 @@ public class Principal extends JFrame {
 		contentPane.setLayout(null);
 		
 		jnombre = new JTextField();
-		jnombre.setBounds(10, 46, 86, 20);
+		jnombre.setBounds(266, 45, 86, 20);
 		contentPane.add(jnombre);
 		jnombre.setColumns(10);
+		// Un actionListener que se repite para todos los campos introducidos
+		jnombre.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				player1.setNombre(jnombre.getText());
+			}
+
 		
-		JLabel lblNombre = new JLabel("Nombre");
-		lblNombre.setBounds(10, 21, 46, 14);
+		});
+		
+		JLabel lblNombre = new JLabel("NOMBRE");
+		lblNombre.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblNombre.setForeground(Color.BLUE);
+		lblNombre.setBounds(141, 48, 73, 14);
 		contentPane.add(lblNombre);
 		
 		japellidos = new JTextField();
-	//	japellidos.setText(String.valueOf(player1.apellidos)); Queria mostrar los valores aqui. 
-		japellidos.setBounds(10, 105, 86, 20);
+		japellidos.setBounds(266, 88, 86, 20);
 		contentPane.add(japellidos);
 		japellidos.setColumns(10);
 		
-		JLabel lblApellidos = new JLabel("Apellidos");
-		lblApellidos.setBounds(10, 77, 61, 14);
+		japellidos.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				player1.setApellidos(japellidos.getText());
+			}
+		});
+		
+		JLabel lblApellidos = new JLabel("APELLIDOS");
+		lblApellidos.setForeground(Color.BLUE);
+		lblApellidos.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblApellidos.setBounds(141, 91, 73, 14);
 		contentPane.add(lblApellidos);
 		
 		jedad = new JTextField();
-		jedad.setBounds(10, 161, 86, 20);
+		jedad.setBounds(266, 133, 86, 20);
 		contentPane.add(jedad);
 		jedad.setColumns(10);
 		
-		JLabel lblEdad = new JLabel("Edad");
-		lblEdad.setBounds(10, 136, 46, 14);
+		jedad.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				if(player1.isNumeric(jedad.getText())==true)
+					player1.setEdad(Integer.parseInt(jedad.getText()));
+				else
+				player1.setEdad(666); 	// si el valor edad no es un numero, le pone 
+										//"por defecto" el valor 666 de tal manera que luego enseña mensaje de error si aparece 666
+			}
+		});
+		
+		JLabel lblEdad = new JLabel("EDAD");
+		lblEdad.setForeground(Color.BLUE);
+		lblEdad.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblEdad.setBounds(141, 136, 46, 14);
 		contentPane.add(lblEdad);
 		
-		jid = new JTextField();
-		jid.setBounds(10, 222, 86, 20);
-		contentPane.add(jid);
-		jid.setColumns(10);
+		JLabel lblDatosJugador = new JLabel("Datos Jugador");
+		lblDatosJugador.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblDatosJugador.setBounds(131, 11, 136, 27);
+		contentPane.add(lblDatosJugador);
 		
-		JLabel lblId = new JLabel("ID");
-		lblId.setBounds(10, 197, 46, 14);
-		contentPane.add(lblId);
+		JButton btnAJugar = new JButton("A JUGAR");
+		btnAJugar.setForeground(Color.RED);
+		btnAJugar.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btnAJugar.setBounds(10, 178, 412, 23);
+		contentPane.add(btnAJugar);
+		
+		btnAJugar.addActionListener(new ActionListener()
+				{
+			public void actionPerformed(ActionEvent arg0)//al darle al boton, coprueba si los datos introducidos son validos
+			{
+			if (player1.getEdad()==666)
+				mensaje.setText("Campo EDAD incorecto");
+			else if (player1.espacios(player1.getNombre()))
+				mensaje.setText("No se ha introducido el nombre");
+			else if (player1.espacios(player1.getApellidos()))
+				mensaje.setText("No se ha introducido el epellido");
+			else
+				mensaje.setText("El nuevo jugador: " +player1.getNombre()+" "+player1.getApellidos()+" tiene "+player1.getEdad()+" años.");
+			}
+				});
+		
+		mensaje = new JTextField();
+		mensaje.setBounds(10, 209, 412, 33);
+		contentPane.add(mensaje);
+		mensaje.setColumns(10);
+		
+		
+		player1.setNombre(jnombre.getText());
+		player1.setApellidos(japellidos.getText());
+		
+		
+		
 	}
 
-	private String Jugador(JTextField apellidos2) {
+	//private String Jugador(JTextField apellidos2) {
 		// TODO Auto-generated method stub
-		return null;
-	}
+	//	return null;
+	//}
 }
