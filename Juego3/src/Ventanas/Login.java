@@ -1,184 +1,211 @@
 package Ventanas;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 
 import Juego.Jugador;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.SystemColor;
+import java.sql.Connection;
 import javax.swing.JButton;
 import java.awt.Color;
+import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import Ventanas.Juego;
+
+import Juego.ConexionBD;
+import Juego.Jugador;
+import Juego.JugadorBD;
+
+import java.awt.BorderLayout;
+
 
 public class Login extends JFrame {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
-	private JTextField jnombre;
-	private JTextField japellidos;
-	private JTextField jedad;
-	private JTextField mensaje;
-	private Login referencia;
-	private Juego ventana_Juego;
-	
-	private Jugador player1=new Jugador();
-	
-	//public static void main(String[] args) 
-	//{
-		
-			
-		//EventQueue.invokeLater(new Runnable() 
-		//{
-		//	public void run() 
-		//	{
-		//		try 
-		//		{
-		//			Login frame = new Login();
-		//			frame.setVisible(true);
-		//		} catch (Exception e) {
-		//			e.printStackTrace();
-		//		}
-		//	}
-		//});
-	// }
+	private static final long serialVersionUID = 2815939040592627306L;
+	// ATRIBUTOS
+	public JPanel contentPane;
+	public JTextField textFieldNOMBRE;
+	public JTextField textFieldAPELLIDO1;
+	public JTextField textFieldEDAD;
+	private final JLabel lblJuegoMathDice = new JLabel("MathDice");
+	public JTextArea textFieldCUADROTextoInferior;
 
-	
-	public Login(Juego vJ) 
-	{
-		referencia=this;
-		ventana_Juego=vJ;
-		setTitle("JuegoDados");
-		
-		player1.setNombre("");
-		player1.setApellidos("");
-		player1.setEdad(666);
-		player1.setId(25);
-				
+	// Creo una etiqueta de referencia a un objeto tipo Inicio
+	private Login login;
+	// Permite acceso desde la ventana Inicio a la ventana Juego, pas�ndola como
+	// referencia
+	private Menu ventanasJuego;
+	// Generamos un nuevo jugador
+	private Jugador player;
+
+	// Constructor Ventana de INICIO
+	public Login() {
+		// Creo el DAO Jugador
+		player = new Jugador();
+
+		// Asocio referencia al objeto creado que es tipo Registro
+		login = this;
+
+		// VENTANA
+		setBackground(Color.YELLOW);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 464, 326);
 		contentPane = new JPanel();
+		contentPane.setBackground(SystemColor.inactiveCaptionBorder);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
-		jnombre = new JTextField();
-		jnombre.setBounds(266, 45, 86, 20);
-		contentPane.add(jnombre);
-		jnombre.setColumns(10);
-		// Un actionListener que se repite para todos los campos introducidos
-		jnombre.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent arg0)
-			{
-				player1.setNombre(jnombre.getText());
+
+		// Etiquetas (JLabel)
+		lblJuegoMathDice.setBounds(155, 11, 152, 19);
+		lblJuegoMathDice.setForeground(Color.BLUE);
+		lblJuegoMathDice.setFont(new Font("Verdana", Font.BOLD, 14));
+		contentPane.add(lblJuegoMathDice);
+
+		JLabel lblDatosDelJugador = new JLabel("Datos Jugador");
+		lblDatosDelJugador.setBounds(61, 30, 342, 20);
+		lblDatosDelJugador.setHorizontalAlignment(SwingConstants.CENTER);
+		lblDatosDelJugador.setBackground(Color.WHITE);
+		lblDatosDelJugador.setForeground(Color.RED);
+		lblDatosDelJugador.setFont(new Font("Arial", Font.BOLD, 14));
+		contentPane.add(lblDatosDelJugador);
+
+		JLabel lblNombre = new JLabel("Nombre:");
+		lblNombre.setBounds(10, 57, 60, 20);
+		lblNombre.setFont(new Font("Arial", Font.BOLD, 12));
+		contentPane.add(lblNombre);
+
+		JLabel lblApellido1 = new JLabel("Apellido:");
+		lblApellido1.setBounds(10, 88, 71, 14);
+		lblApellido1.setFont(new Font("Arial", Font.BOLD, 12));
+		contentPane.add(lblApellido1);
+
+		JLabel lblEdad = new JLabel("Edad:");
+		lblEdad.setBounds(224, 116, 46, 14);
+		lblEdad.setFont(new Font("Arial", Font.BOLD, 12));
+		contentPane.add(lblEdad);
+
+		// Entradas (JTextFile)
+		textFieldNOMBRE = new JTextField();
+		textFieldNOMBRE.setBounds(61, 57, 187, 20);
+		contentPane.add(textFieldNOMBRE);
+		textFieldNOMBRE.setColumns(10);
+		// Listener esperando INTRO
+		textFieldNOMBRE.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				// Si pulso Intro se muestra dato del Jugador
+				player.setNombre(textFieldNOMBRE.getText());
 			}
+		});
+
+		textFieldAPELLIDO1 = new JTextField();
+		textFieldAPELLIDO1.setBounds(87, 85, 208, 20);
+		contentPane.add(textFieldAPELLIDO1);
+		textFieldAPELLIDO1.setColumns(10);
+		// Listener esperando INTRO
+		textFieldAPELLIDO1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				// Si pulso Intro se muestra dato del Jugador
+				player.setApellidos(textFieldAPELLIDO1.getText());
+			}
+		});
 
 		
-		});
-		
-		JLabel lblNombre = new JLabel("NOMBRE");
-		lblNombre.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblNombre.setForeground(Color.BLUE);
-		lblNombre.setBounds(141, 48, 73, 14);
-		contentPane.add(lblNombre);
-		
-		japellidos = new JTextField();
-		japellidos.setBounds(266, 88, 86, 20);
-		contentPane.add(japellidos);
-		japellidos.setColumns(10);
-		
-		japellidos.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent arg0)
-			{
-				player1.setApellidos(japellidos.getText());
+
+		textFieldEDAD = new JTextField();
+		textFieldEDAD.setBounds(261, 113, 46, 20);
+		contentPane.add(textFieldEDAD);
+		textFieldEDAD.setColumns(10);
+		// Listener esperando INTRO
+		textFieldEDAD.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				// Si pulso Intro se muestra dato del Jugador
+				player.setEdad(textFieldEDAD.getText());
 			}
 		});
-		
-		JLabel lblApellidos = new JLabel("APELLIDOS");
-		lblApellidos.setForeground(Color.BLUE);
-		lblApellidos.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblApellidos.setBounds(141, 91, 73, 14);
-		contentPane.add(lblApellidos);
-		
-		jedad = new JTextField();
-		jedad.setBounds(266, 133, 86, 20);
-		contentPane.add(jedad);
-		jedad.setColumns(10);
-		
-		jedad.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent arg0)
-			{
-				if(player1.isNumeric(jedad.getText())==true)
-					player1.setEdad(Integer.parseInt(jedad.getText()));
-				else
-				player1.setEdad(666); 	// si el valor edad no es un numero, le pone 
-										//"por defecto" el valor 666 de tal manera que luego enseña mensaje de error si aparece 666
+
+		// Boton Juego
+		JButton btnBotonJUGAR = new JButton("REGISTRATE para jugar");
+		btnBotonJUGAR.setBounds(99, 159, 262, 31);
+		btnBotonJUGAR.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				// Mensaje en la caja de texto inferior
+				// de la ventana
+				boolean sinErrores = true;
+
+				switch (player.verificar(player)) {
+				case 1:
+					textFieldCUADROTextoInferior.setText("Falta NOMBRE o pulsar Intro");
+					break;
+				case 2:
+					textFieldCUADROTextoInferior.setText("NOMBRE tiene que ser texto");
+					break;
+				case 3:
+					textFieldCUADROTextoInferior.setText("Falta APELLIDO o pulsar Intro");
+					break;
+				case 4:
+					textFieldCUADROTextoInferior.setText("El APELLIDO tiene que ser texto");
+					break;
+				case 6:
+					textFieldCUADROTextoInferior.setText("EDAD no es un numero");
+					break;
+				default:
+					String texto = "Nuevo JUGADOR: " + player.getNombre() + " " + player.getApellidos()  + " tiene " + player.getEdad() + " anyos.";
+					textFieldCUADROTextoInferior.setText(texto);
+
+					// Conexion a la base de datos
+					ConexionBD conBD = new ConexionBD("localhost", "jugador", "root", "");
+
+					if (conBD.connectBD()) {
+
+						texto = texto + System.getProperty("line.separator") + "Conectado con Exito a la BBDD";
+						textFieldCUADROTextoInferior.setText(texto);
+
+						JugadorBD jugadorBD = new JugadorBD(player, conBD.getConnection());
+
+						// Insertar Jugador en BBDD
+						int result = jugadorBD.insertarJugador();
+						if ( result > 0) {
+							texto = texto + System.getProperty("line.separator")
+									+ "Registrado con exito con el numero:" + String.valueOf(result);
+							textFieldCUADROTextoInferior.setText(texto);
+
+							ventanasJuego = new Menu(player);
+
+							// Habilitar menu juego
+							ventanasJuego.habilitarJuego();
+							// Abro Jugar
+							ventanasJuego.setVisible(true);
+							// Cierro Registro
+							// registro.setVisible(false);
+
+						}
+
+					}
+					break;
+				}
+
 			}
 		});
-		
-		JLabel lblEdad = new JLabel("EDAD");
-		lblEdad.setForeground(Color.BLUE);
-		lblEdad.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblEdad.setBounds(141, 136, 46, 14);
-		contentPane.add(lblEdad);
-		
-		JLabel lblDatosJugador = new JLabel("Datos Jugador");
-		lblDatosJugador.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblDatosJugador.setBounds(131, 11, 136, 27);
-		contentPane.add(lblDatosJugador);
-		
-		JButton btnAJugar = new JButton("A JUGAR");
-		btnAJugar.setForeground(Color.RED);
-		btnAJugar.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnAJugar.setBounds(10, 178, 412, 23);
-		contentPane.add(btnAJugar);
-		
-		btnAJugar.addActionListener(new ActionListener()
-				{
-			public void actionPerformed(ActionEvent arg0)//al darle al boton, coprueba si los datos introducidos son validos
-			{
-			if (player1.getEdad()==666)
-				mensaje.setText("Campo EDAD incorecto");
-			else if (player1.espacios(player1.getNombre()))
-				mensaje.setText("No se ha introducido el nombre");
-			else if (player1.espacios(player1.getApellidos()))
-				mensaje.setText("No se ha introducido el epellido");
-			else
-				mensaje.setText("El nuevo jugador: " +player1.getNombre()+" "+player1.getApellidos()+" tiene "+player1.getEdad()+" años.");
-			ventana_Juego.setJugador(player1);
-			ventana_Juego.setVisible(true);
-			referencia.setVisible(false);
-			
-			}
-				});
-		
-		mensaje = new JTextField();
-		mensaje.setBounds(10, 209, 412, 33);
-		contentPane.add(mensaje);
-		mensaje.setColumns(10);
-		
-		
-		player1.setNombre(jnombre.getText());
-		player1.setApellidos(japellidos.getText());
-		
-		
-		
+
+		btnBotonJUGAR.setForeground(new Color(199, 21, 133));
+		btnBotonJUGAR.setFont(new Font("Arial", Font.BOLD, 16));
+		contentPane.add(btnBotonJUGAR);
+
+		textFieldCUADROTextoInferior = new JTextArea();
+		textFieldCUADROTextoInferior.setBounds(10, 201, 428, 75);
+		contentPane.add(textFieldCUADROTextoInferior);
+		textFieldCUADROTextoInferior.setColumns(10);
+
 	}
 
-	//public Login(Juego vJuego) {
-		// TODO Auto-generated constructor stub
-	//}
-
-	//private String Jugador(JTextField apellidos2) {
-		// TODO Auto-generated method stub
-	//	return null;
-	//}
 }

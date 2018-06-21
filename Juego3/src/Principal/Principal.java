@@ -1,13 +1,15 @@
 package Principal;
-import Ventanas.Juego;
+
 import Ventanas.Login;
+
 
 public class Principal 
 {
+	//private static Login login;
+	
 	public static void main(String[] args) 
 	{
-		Juego vJuego=new Juego();
-		Login login=new Login(vJuego);
+		Login login=new Login();
 		login.setVisible(true);
 	}
 	

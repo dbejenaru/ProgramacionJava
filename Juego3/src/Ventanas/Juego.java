@@ -4,11 +4,11 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import Juego.Jugador;
-
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JTextField;
 import java.awt.Color;
 import java.awt.Font;
@@ -16,80 +16,114 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.BorderLayout;
+
 import java.util.Random;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 
-public class Juego extends JPanel {
+public class Juego extends JFrame {
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -121334170071261839L;
-	private int[] numerosAlmacenadosDados3=new int[3];
-	private int[] numerosAlmacenadosDados6=new int [2];
-	private int numerosAlmacenadosDados12;
-	
-	private JPanel contentPane_1_1;
-	private Jugador j;
-	private JLabel message;
-	private JTextField resultados;
-	 JLabel nombreJugador;
-	 JLabel punctuacion;
-	private JLabel dado1, dado2, dado3;
-	private JLabel dado4, dado5;
-	private JLabel dado6;
-	private JButton suma, resta, mathdice, repetir;
-	
-	private JLabel resultadosLabel;
-	private JLabel resultadosOK;
-		
+	private static final long serialVersionUID = 1L;
 
+	//private JPanel contentPane;
+	private JPanel contentPane;
+	
 	private ImageIcon[] dados3=new ImageIcon[3];
 	private ImageIcon[] dados6=new ImageIcon[6];
 	private ImageIcon[] dados12=new ImageIcon[12];
 	private ImageIcon dadoGris;
 	private Random dado=new Random();
 	
+	private int[] numerosAlmacenadosDados3=new int[3];
+	private int[] numerosAlmacenadosDados6=new int [2];
+	private int numerosAlmacenadosDados12;
 	
+	
+	private Jugador player1;
+	JLabel nombreJugador;
+	JLabel punctuacion;
+	
+	private JLabel dado1, dado2, dado3;
+	private JLabel dado4, dado5;
+	private JLabel dado6;
+	private JButton suma, resta, mathdice, repetir;
+	
+	private JTextField resultados;
 	
 	private boolean tocaNumero=true;
 	private int operacion=0;
 	private int numerosIntroducidos=0;
 	private boolean esSuma=true;
+	
+	
+	//private JLabel message;
+	
+	 
+	 
+	
+	
+	private JLabel resultadosLabel;
+	private JLabel resultadosOK;
+	
+	
 
-	public Juego() 
+	public Juego(Jugador jugador1) 
 	{
-		contentPane_1_1 = new JPanel();
-		contentPane_1_1.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setLayout(null);
+		
+	//	setBounds(50, 50, 1000, 530);
+	//	contentPane = this;
+	//	contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+	//	contentPane.setLayout(null);
+	//	setLayout(null);
+		
+		
+		///
+		
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 932, 595);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+
 				
-		message = new JLabel("Bienvenido");
-		message.setHorizontalAlignment(SwingConstants.CENTER);
+	//	message = new JLabel("Bienvenido");
+	//	message.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		punctuacion = new JLabel("Empezamos");
 		punctuacion.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		dado1 = new JLabel("");
-		dado1.setHorizontalAlignment(SwingConstants.CENTER);
+		dado1.setBounds(10, 10, 150, 150);
+		contentPane.add(dado1);
 		
 		dado2 = new JLabel("");
-		dado2.setHorizontalAlignment(SwingConstants.CENTER);
-		
+		dado2.setBounds(160, 10, 150, 150);
+		contentPane.add(dado2);
+				
 		dado3 = new JLabel("");
-		dado3.setHorizontalAlignment(SwingConstants.CENTER);
-		
+		dado3.setBounds(210, 10, 150, 150);
+		contentPane.add(dado3);
+				
 		dado4 = new JLabel("");
-		dado4.setHorizontalAlignment(SwingConstants.CENTER);
-		
+		dado4.setBounds(10, 160, 150, 150);
+		contentPane.add(dado4);
+				
 		dado5 = new JLabel("");
-		dado5.setHorizontalAlignment(SwingConstants.CENTER);
+		dado5.setBounds(160, 160, 150, 150);
+		contentPane.add(dado5);
 		
 		dado6 = new JLabel("");
-		dado6.setHorizontalAlignment(SwingConstants.CENTER);
+		dado6.setBounds(10, 310, 150, 150);
+		contentPane.add(dado6);
+		
 		//SUMA////////////////////////////////////
 		suma = new JButton("+");
-		suma.setFont(new Font("Tahoma", Font.BOLD, 16));
-		suma.setForeground(Color.RED);
+		
 		suma.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent arg0)
@@ -102,10 +136,14 @@ public class Juego extends JPanel {
 				}
 			}
 		});
+		suma.setFont(new Font("Tahoma", Font.BOLD, 16));
+		suma.setBounds(510, 78, 195, 63);
+		suma.setForeground(Color.RED);
+		contentPane.add(suma);
+		
+		
 		//RESTA/////////////////////////
 		resta = new JButton("-");
-		resta.setFont(new Font("Tahoma", Font.BOLD, 16));
-		resta.setForeground(Color.BLUE);
 		resta.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent arg0)
@@ -118,10 +156,26 @@ public class Juego extends JPanel {
 				}
 			}
 		});
+		resta.setFont(new Font("Tahoma", Font.BOLD, 16));
+		resta.setForeground(Color.BLUE);
+		resta.setBounds(710, 78, 195, 63);
+		contentPane.add(resta);
+		
+		nombreJugador = new JLabel("Bienvenido");
+		nombreJugador.setFont(new Font("Tahoma", Font.BOLD, 16));
+		nombreJugador.setHorizontalAlignment(SwingConstants.CENTER);
+		nombreJugador.setBounds(510, 5, 465, 39);
+		contentPane.add(nombreJugador);
+		
+		
 		///////////////////////////////
 		resultados = new JTextField();
 		resultados.setEditable(false);
+		resultados.setBounds(510, 160, 464, 63);
+		resultados.setFont(new Font("Tahoma", Font.BOLD, 16));
+		contentPane.add(resultados);
 		resultados.setColumns(10);
+		
 		//MATHDICE//////////////////
 		mathdice = new JButton("MATHDICE");
 		mathdice.addActionListener(new ActionListener()
@@ -136,8 +190,8 @@ public class Juego extends JPanel {
 					{
 						resultadosOK.setText("Correcto");
 						mathdice.setEnabled(false);
-						j.setPuntos(j.getPuntos()+5);
-						punctuacion.setText("Tu punctuacion es: "+j.getPuntos());
+						player1.setPunctuacion(player1.getPunctuacion()+5);
+						punctuacion.setText("Tu punctuacion es: "+player1.getPunctuacion());
 					}
 					else
 					{
@@ -147,7 +201,26 @@ public class Juego extends JPanel {
 				}
 			}
 		});
-		//REPETIR/////////////
+		mathdice.setFont(new Font("Tahoma", Font.BOLD, 16));
+		mathdice.setBounds(510, 236, 464, 63);
+		contentPane.add(mathdice);
+		
+		resultadosLabel = new JLabel("");
+		resultadosLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		resultadosLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
+		resultadosLabel.setBounds(510, 467, 464, 52);
+		contentPane.add(resultadosLabel);
+		
+		resultadosOK = new JLabel("");
+		resultadosOK.setFont(new Font("Tahoma", Font.BOLD, 14));
+		resultadosOK.setHorizontalAlignment(SwingConstants.CENTER);
+		resultadosOK.setBounds(510, 408, 464, 14);
+		contentPane.add(resultadosOK);
+		
+		
+		
+		
+		//REPETIR////////////////////////////////// 
 		repetir = new JButton("REPETIR");
 		repetir.addActionListener(new ActionListener()
 		{
@@ -160,112 +233,29 @@ public class Juego extends JPanel {
 			
 		});
 		repetir.setEnabled(false);
+		repetir.setFont(new Font("Tahoma", Font.BOLD, 16));
+		repetir.setBounds(510, 310, 464, 63);
+		contentPane.add(repetir);
 		
-		resultadosOK = new JLabel("Resultado");
-		resultadosOK.setForeground(Color.GREEN);
-		resultadosOK.setBackground(Color.GREEN);
-		resultadosOK.setFont(new Font("Tahoma", Font.BOLD, 14));
-		resultadosOK.setHorizontalAlignment(SwingConstants.CENTER);
-		GroupLayout gl_contentPane_1_1 = new GroupLayout(contentPane_1_1);
-		gl_contentPane_1_1.setHorizontalGroup(
-			gl_contentPane_1_1.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane_1_1.createSequentialGroup()
-					.addGap(5)
-					.addGroup(gl_contentPane_1_1.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPane_1_1.createSequentialGroup()
-							.addGroup(gl_contentPane_1_1.createParallelGroup(Alignment.LEADING)
-								.addComponent(dado1, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)
-								.addComponent(dado4, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE))
-							.addGap(8)
-							.addGroup(gl_contentPane_1_1.createParallelGroup(Alignment.LEADING)
-								.addComponent(dado2, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)
-								.addComponent(dado5, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE))
-							.addGap(10)
-							.addGroup(gl_contentPane_1_1.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_contentPane_1_1.createSequentialGroup()
-									.addGap(58)
-									.addComponent(punctuacion, GroupLayout.PREFERRED_SIZE, 208, GroupLayout.PREFERRED_SIZE))
-								.addComponent(dado3, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)
-								.addGroup(gl_contentPane_1_1.createSequentialGroup()
-									.addGap(167)
-									.addComponent(resta, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE))
-								.addGroup(gl_contentPane_1_1.createSequentialGroup()
-									.addGap(48)
-									.addComponent(message, GroupLayout.PREFERRED_SIZE, 218, GroupLayout.PREFERRED_SIZE))
-								.addGroup(gl_contentPane_1_1.createSequentialGroup()
-									.addGap(68)
-									.addComponent(suma, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE))
-								.addGroup(gl_contentPane_1_1.createSequentialGroup()
-									.addGap(58)
-									.addComponent(resultados, GroupLayout.PREFERRED_SIZE, 208, GroupLayout.PREFERRED_SIZE))
-								.addGroup(gl_contentPane_1_1.createSequentialGroup()
-									.addGap(68)
-									.addComponent(mathdice, GroupLayout.PREFERRED_SIZE, 183, GroupLayout.PREFERRED_SIZE))))
-						.addGroup(gl_contentPane_1_1.createSequentialGroup()
-							.addComponent(dado6, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)
-							.addGap(151)
-							.addGroup(gl_contentPane_1_1.createParallelGroup(Alignment.LEADING)
-								.addComponent(repetir, GroupLayout.PREFERRED_SIZE, 183, GroupLayout.PREFERRED_SIZE)
-								.addComponent(resultadosOK, GroupLayout.PREFERRED_SIZE, 188, GroupLayout.PREFERRED_SIZE)))))
-		);
-		gl_contentPane_1_1.setVerticalGroup(
-			gl_contentPane_1_1.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane_1_1.createSequentialGroup()
-					.addGap(6)
-					.addGroup(gl_contentPane_1_1.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPane_1_1.createSequentialGroup()
-							.addGap(14)
-							.addComponent(dado1, GroupLayout.PREFERRED_SIZE, 62, GroupLayout.PREFERRED_SIZE)
-							.addGap(11)
-							.addComponent(dado4, GroupLayout.PREFERRED_SIZE, 62, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_contentPane_1_1.createSequentialGroup()
-							.addGap(14)
-							.addComponent(dado2, GroupLayout.PREFERRED_SIZE, 62, GroupLayout.PREFERRED_SIZE)
-							.addGap(11)
-							.addComponent(dado5, GroupLayout.PREFERRED_SIZE, 62, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_contentPane_1_1.createSequentialGroup()
-							.addGroup(gl_contentPane_1_1.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_contentPane_1_1.createSequentialGroup()
-									.addGap(34)
-									.addComponent(punctuacion, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE))
-								.addGroup(gl_contentPane_1_1.createSequentialGroup()
-									.addGap(14)
-									.addComponent(dado3, GroupLayout.PREFERRED_SIZE, 62, GroupLayout.PREFERRED_SIZE))
-								.addGroup(gl_contentPane_1_1.createSequentialGroup()
-									.addGap(68)
-									.addComponent(resta, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE))
-								.addComponent(message, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
-								.addGroup(gl_contentPane_1_1.createSequentialGroup()
-									.addGap(68)
-									.addComponent(suma, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)))
-							.addGap(8)
-							.addComponent(resultados, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
-							.addGap(8)
-							.addComponent(mathdice, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)))
-					.addGap(1)
-					.addGroup(gl_contentPane_1_1.createParallelGroup(Alignment.LEADING)
-						.addComponent(dado6, GroupLayout.PREFERRED_SIZE, 62, GroupLayout.PREFERRED_SIZE)
-						.addGroup(gl_contentPane_1_1.createSequentialGroup()
-							.addComponent(repetir, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
-							.addGap(14)
-							.addComponent(resultadosOK, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))))
-		);
-		contentPane_1_1.setLayout(gl_contentPane_1_1);
+		//////////////////////////////////////////////
 		
-		resultadosLabel = new JLabel("");
-		resultadosLabel.setBounds(223, 244, 201, 14);
-		add(resultadosLabel);
+		punctuacion =new JLabel ("Puntuacion: 0");
+		punctuacion.setHorizontalAlignment(SwingConstants.CENTER);
+		punctuacion.setFont(new Font("Tahoma", Font.BOLD, 14));
+		punctuacion.setBounds(510, 35, 464, 32);
+		contentPane.add(punctuacion);
+		
 		////////////////////////////////////
-		inicializarBotones();
+	inicializarBotones();
 		
 	}
 
-	public void setJugador(Jugador j) 
+	public void setJugador(Jugador player) 
 	{
 		// se genera si se requiere cuando se declara en la ventana login
-		this.j=j;
-		message.setText("Hola " +j.getNombre()+ " bienvenido al juego.");
-		punctuacion.setText("Tu punctuacion es: "+j.getPuntos());
+		this.player1=player;
+		nombreJugador.setText("Hola " +player.getNombre()+ " bienvenido al juego.");
+		punctuacion.setText("Tu punctuacion es: "+player.getPunctuacion());
 		
 	}
 	private void setOperacion(int num)
@@ -288,17 +278,17 @@ public class Juego extends JPanel {
 	{
 		for(int i=0; i<dados3.length; i++)
 		{
-			dados3[i]=new ImageIcon(getClass().getResource("dados/dado"+String.valueOf(i+1)+"_3.png"));
+			dados3[i]=new ImageIcon(getClass().getResource("img/dado"+String.valueOf(i+1)+"_3.png"));
 		}
 		for(int i=0; i<dados6.length; i++)
 		{
-			dados6[i]=new ImageIcon(getClass().getResource("dados/dado"+String.valueOf(i+1)+"_6.png"));
+			dados6[i]=new ImageIcon(getClass().getResource("img/dado"+String.valueOf(i+1)+"_6.png"));
 		}
 		for (int i=0; i<dados12.length; i++)
 		{
-			dados12[i]=new ImageIcon(getClass().getResource("dados/dadodoce_"+String.valueOf(i+1)+".png"));
+			dados12[i]=new ImageIcon(getClass().getResource("img/dadodoce_"+String.valueOf(i+1)+".png"));
 		}
-		dadoGris=new ImageIcon(getClass().getResource("dados/dadogris.png"));
+		dadoGris=new ImageIcon(getClass().getResource("img/dadogris.png"));
 		//dados 3 caras		
 				for(int i=0;i<numerosAlmacenadosDados3.length; i++)
 					numerosAlmacenadosDados3[i]=dado.nextInt(3);
@@ -347,6 +337,7 @@ public class Juego extends JPanel {
 					resultados.setText(resultados.getText()+String.valueOf(numerosAlmacenadosDados6[numeroDado-4]+1));
 				dado.removeMouseListener(this);
 				dado.setIcon(dadoGris);
+				tocaNumero=false;
 				if (numeroDado<4)
 					setOperacion(numerosAlmacenadosDados3[numeroDado-1]+1);
 				else
@@ -358,17 +349,14 @@ public class Juego extends JPanel {
 		}
 		@Override
 		public void mouseExited(MouseEvent e) {
-			// TODO Auto-generated method stub
 			
 		}
 		@Override
 		public void mousePressed(MouseEvent e) {
-			// TODO Auto-generated method stub
 			
 		}
 		@Override
 		public void mouseReleased(MouseEvent e) {
-			// TODO Auto-generated method stub
 			
 		}
 	}
